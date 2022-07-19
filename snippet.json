@@ -1,0 +1,168 @@
+{
+    "[Full Snippet] Defines a new Discord bot in Disky.": {
+        "prefix": "fsnewbot",
+        "body": [
+          "# Replace \"BOT_NAME\" with the name of your Discord bot.",
+          "define new bot named \"BOT_NAME\":",
+          "    # A token is a way for Discord bots to log in.",
+          "    # You can get your token by going to the Discord Developers page.",
+          "    token: TOKEN_HERE",
+          "    #! Do not change these settings if you don't know what you're doing.",
+          "    intents: default intents",
+          "    policy: all",
+          "    auto reconnect: true",
+          "    compression: none",
+          "    #! You can now touch below.",
+          "    on ready:",
+          "        # This section will be triggered when the bot is online.",
+          "        send \"The bot is ready.\" to console",
+          "    on guild ready:",
+          "        # This section will be triggered when a certain guild is loaded.",
+          "        send \"The guild %event-guild% is now loaded.\" to console"
+        ],
+        "description": "Defines a new Discord bot in Disky."
+      },
+      "[Full Snippet] Functions to register slash commands in multiple triggers.": {
+        "prefix": "fsregisterfunctions",
+        "body": [
+          "# Because of DiSky V4 limitations, we have to use a function to register slash commands.",
+          "# This is the function to register commands in a specific guild. ",
+          "# Pros: No registration delay (when you register the command, it's instant)",
+          "# Cons: There is a limit of 100 commands.",
+          "",
+          "function addSlash_Local(slash: object, name: string):",
+          "    #! DO NOT TOUCH",
+          "    delete {slashcmd.Local::%{_name}%}",
+          "    set {slashcmd.Local::%{_name}%} to {_slash}",
+          "",
+          "    #! Replace \"GUILD_ID\" with the ID of your Discord Server.",
+          "    # To get it: Right click on the guild you want to register the commands to -> Copy ID",
+          "    # If you don't have the option: User Settings -> Advanced -> Turn on \"Developer Mode\" -> Repeat last step",
+          "    update command {slashcmd.Local::*} locally in guild with id \"GUILD_ID\"",
+          "",
+          "# This is the function to register commands globally.",
+          "# This means if a server invited your bot with the \"applications.commands\" scope and with the \"Use application command\" permission,",
+          "# the command will be registered in the server.",
+          "",
+          "# Pros: No command limits (you can register unlimited commands)",
+          "# Cons: Slash commands may take up to an hour to register across all servers.",
+          "",
+          "function addSlash_Global(slash: object, name: string):",
+          "    #! DO NOT TOUCH",
+          "    delete {slashcmd.Global::%{_name}%}",
+          "    set {slashcmd.Global::%{_name}%} to {_slash}",
+          "",
+          "    #! Replace \"BOT_NAME\" with the name of your bot in DiSky.",
+          "    # To see that: Do /disky bots in-game.",
+          "    update command {slashcmd.Global::*} globally in bot \"BOT_NAME\""
+        ],
+        "description": "Functions to register slash commands in multiple triggers."
+      },
+      "[Expression] Makes a new slash command.": {
+        "prefix": "exprnewslash",
+        "body": [
+          "new slash command named \"my-cool-command\" with description \"This is a very cool command.\""
+        ],
+        "description": "Makes a new slash command."
+      },
+      "[Expression] Makes a new sub command.": {
+        "prefix": "exprnewsubcommand",
+        "body": [
+          "new sub command named \"cool-subcommand\" with description \"This subcommand is epic!\""
+        ],
+        "description": "Makes a new sub command."
+      },
+      "[Expression] Sub commands of a command": {
+        "prefix": "exprsubcmds",
+        "body": [
+          "sub commands of {_c} # Replace {_c} with the slash command variable."
+        ],
+        "description": "[Expression] Sub commands of a command"
+      },
+      "[Expression] Make a new button": {
+        "prefix": "exprnewbutton",
+        "body": [
+          "new secondary button with id \"button-id\" named \"Cool Button!\" with emoji \"white_check_mark\""
+        ],
+        "description": "[Expression] Make a new button"
+      },
+      "[Full Snippet] Make a new button": {
+        "prefix": "fsnewbutton",
+        "body": [
+          "# Buttons have \"styles\", which are basically colors.",
+          "# The styles can be found by typing \"typepresences\"",
+          "# Now we have to make a new components row like this:",
+          "set {_r} to new components row",
+          "",
+          "# Now let's make a button and add it to that row.",
+          "# I'll show link buttons first, then the regular ones.",
+          "# Just a quick note: Emojis are not required, you can add them if you want to.",
+          "# You use the ID part for the website URL; for example https://google.com.",
+          "#! Make sure to include \"http://\" or \"https://\" otherwise it won't work.",
+          "add new link button with id \"https://google.com\" named \"Go to Google!\" with emoji \"globe_with_meridians\" to components of {_r}",
+          "",
+          "# Now these are regular buttons.",
+          "# You can add any style to them (apart from link buttons which i've showed)",
+          "# We use the ID part as a unique identifier for the button so we can later detect it in the \"on button click\" event.",
+          "# Again, emoji's are not required, you can add them if you want to.",
+          "add new success button with id \"cool-button\" named \"Cool Button!\" with emoji \"white_check_mark\" to components of {_r}",
+          "",
+          "# Now to actually show our buttons.",
+          "# To do it, we simply need to include the row when we're sending something.",
+          "# For example:",
+          "reply with \"Let me show off my cool buttons!\" with components {_r}",
+          "# Of course you can use the post effect with this.",
+          "",
+          "# Now to actually detect the buttons.",
+          "# You can detect all buttons (except link buttons).",
+          "# Now let's make our cool button reply with a hidden message which will only be displayed to the person which clicked the button.",
+          "on button click:",
+          "    # \"cool-button\" is the button ID we've defined above.",
+          "    event-string \"cool-button\"",
+          "",
+          "    # At this point you can put any code here. Now let's go ahead and add a reply function like this::",
+          "    reply with hidden \"You have just clicked the cool button!\"",
+          "",
+          "# Congrats! You have made a cool button!"
+        ],
+        "description": "[Full Snippet] Make a new button"
+      },
+      "[Expression] Ban a member from guild": {
+        "prefix": "exprdiscordban",
+        "body": [
+          "# Arg-1 is the member you want to ban, arg-2 is the reason of the ban (it will be shown in audit logs)",
+          "discord ban arg-1 due to arg-2 and delete 255 days worth of messages"
+        ],
+        "description": "[Expression] Ban a member from guild"
+      },
+      "[Expression] Get guilds of bot": {
+        "prefix": "exprbotguilds",
+        "body": [
+          "# Replace \"BOT_NAME\" with the name of your bot.",
+          "# It can be found by doing /disky bots.",
+          "set {_g::*} to all the guilds of bot \"BOT_NAME\""
+        ],
+        "description": "[Expression] Get guilds of bot"
+      },
+      "[Expression] Get ping of bot": {
+        "prefix": "exprbotping",
+        "body": [
+          "# Replace \"BOT_NAME\" with the name of your bot.",
+          "# It can be found by doing /disky bots.",
+          "set {_ping} to bot ping of \"BOT_NAME\""
+        ],
+        "description": "[Expression] Get ping of bot"
+      },
+      "[Types] Presence Types": {
+        "prefix": "typepresences",
+        "body": [
+          "# Valid button styles (with colors):",
+          "#   primary - blue",
+          "#   secondary - gray",
+          "#   success - green",
+          "#   danger - red",
+          "#   link - gray (this style can only be used for URLS; example https://google.com)"
+        ],
+        "description": "[Types] Presence Types"
+      }
+}

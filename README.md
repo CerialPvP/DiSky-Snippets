@@ -9,6 +9,8 @@ Hello and thank you for coming to this repository. If you're here, you most like
 
 ### Snippet Types
 
+The snippets start with a snippet type so you can access snippets quickly.
+
 | Type Name | Explenation |
 | --------- | ----------- |
 | fs | Full snippet - A snippet which is a tutorial
